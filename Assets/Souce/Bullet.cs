@@ -38,6 +38,7 @@ public class Bullet : MonoBehaviour
         }
         else if (collision.CompareTag("Box"))
         {
+            Destroy(collision.gameObject);
             SlowDown();
         }
         else

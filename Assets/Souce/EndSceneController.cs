@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class EndSceneController : MonoBehaviour
 {
+    public Text LeftResult;
+    public Text RightResult;
     public Button playAgainButton;
     public Button secondaryButton; // Вторая кнопка, пока неактивная
 
@@ -14,7 +16,11 @@ public class EndSceneController : MonoBehaviour
         playAgainButton.onClick.AddListener(PlayAgain);
         secondaryButton.onClick.AddListener(SecondaryAction);
     }
-
+    private void Update()
+    {
+        LeftResult.text = PlayerPrefs.GetInt("Left").ToString();
+        RightResult.text = PlayerPrefs.GetInt("Right").ToString() ;
+    }
     private void PlayAgain()
     {
         PlayerPrefs.SetInt("Left", 0);

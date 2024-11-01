@@ -429,6 +429,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb409f62fdfc49e41bd943e6d4d7a854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LeftResult: {fileID: 719224853}
+  RightResult: {fileID: 1284257980}
   playAgainButton: {fileID: 832435363}
   secondaryButton: {fileID: 856941757}
 --- !u!4 &539901572
@@ -926,7 +928,7 @@ GameObject:
   - component: {fileID: 1612060163}
   - component: {fileID: 1612060162}
   m_Layer: 5
-  m_Name: RightResult (1)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

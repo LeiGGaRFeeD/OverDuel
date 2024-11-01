@@ -51,6 +51,19 @@ public class Cowboy : MonoBehaviour
             }
         }
     }
+    public void AndroidMode()
+    {
+
+            if (hasGun)
+            {
+                Shoot();
+            }
+            else
+            {
+                ChangeDirection();
+            }
+        
+    }
 
     private void Move()
     {
@@ -85,7 +98,7 @@ public class Cowboy : MonoBehaviour
         gameController.RegisterShot(isLeftCowboy);
     }
 
-    private void ChangeDirection()
+    public void ChangeDirection()
     {
         movingToPointB = !movingToPointB;
     }
