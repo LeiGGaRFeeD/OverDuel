@@ -20,6 +20,10 @@ public class Cowboy : MonoBehaviour
     private float moveSpeed = 2f;
     private bool movingToPointB = true;
 
+    public SpriteRenderer cowboySprite;
+    private bool canShoot = true;
+    private int score = 0;
+
     private GameController gameController;
 
     private void Start()
@@ -105,6 +109,7 @@ public class Cowboy : MonoBehaviour
             PlayerPrefs.SetInt("Right", PlayerPrefs.GetInt("Right") + 1);
         }
         UpdateHitCounterText();
+        StartCoroutine(HandleBlinkingAndCooldown());
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -113,5 +118,25 @@ public class Cowboy : MonoBehaviour
     private void UpdateHitCounterText()
     {
         hitCounterText.text = hitCounter.ToString();
+    }
+    // Корутин для моргания и временной блокировки стрельбы
+    private IEnumerator HandleBlinkingAndCooldown()
+    {
+        canShoot = false;
+        for (int i = 0; i < 5; i++) // Моргание 5 раз
+        {
+            cowboySprite.enabled = !cowboySprite.enabled;
+            yield return new WaitForSeconds(0.2f);
+        }
+        cowboySprite.enabled = true; // Восстановление видимости
+
+        yield return new WaitForSeconds(2); // Время блокировки стрельбы
+        canShoot = true;
+    }
+
+    // Проверка возможности стрельбы
+    public bool CanShoot()
+    {
+        return canShoot;
     }
 }

@@ -7,13 +7,13 @@ public class Bullet : MonoBehaviour
     private float speed = 10f;
     private Vector2 direction;
     private Cowboy shooter;
-    private float lifetime = 5f; // ¬рем€ жизни пули, после которого она исчезнет
+    private float lifetime = 5f;
 
     public void Initialize(Cowboy cowboy)
     {
         shooter = cowboy;
         direction = shooter.isLeftCowboy ? Vector2.right : Vector2.left;
-        Destroy(gameObject, lifetime); // ”ничтожение пули через заданное врем€
+        Destroy(gameObject, lifetime);
     }
 
     private void Update()
@@ -26,25 +26,34 @@ public class Bullet : MonoBehaviour
         if (collision.CompareTag("Cowboy"))
         {
             Cowboy hitCowboy = collision.GetComponent<Cowboy>();
-            if (hitCowboy != shooter)
+            if (hitCowboy != shooter && shooter.CanShoot())
             {
                 hitCowboy.RegisterHit();
-                Destroy(gameObject); // ”ничтожаем пулю при попадании в ковбо€
+                Destroy(gameObject); // ”ничтожение пули при попадании в ковбо€
             }
         }
         else if (collision.CompareTag("Cactus"))
         {
             Ricochet();
         }
+        else if (collision.CompareTag("Box"))
+        {
+            SlowDown();
+        }
         else
         {
-            Destroy(gameObject); // ”ничтожаем пулю при попадании в любые другие объекты
+            Destroy(gameObject);
         }
     }
 
     public void Ricochet()
     {
-        // –икошет мен€ет направление случайно влево или вправо, позвол€€ многократные рикошеты
         direction = new Vector2(-direction.x, Random.Range(-0.5f, 0.5f));
     }
+
+    private void SlowDown()
+    {
+        speed /= 2; // «амедление скорости пули при попадании в €щик
+    }
+
 }
