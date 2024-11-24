@@ -22,6 +22,15 @@ public class BackgroundManager : MonoBehaviour
         SetBackground(selectedBackgroundIndex);
     }
 
+    private void Update()
+    {
+        // ќбновл€ем размер фона каждый кадр
+        if (activeBackground != null)
+        {
+            ResizeBackgroundToFitCamera(activeBackground);
+        }
+    }
+
     private void SetBackground(int index)
     {
         // ”бедитесь, что индекс находитс€ в пределах массива
@@ -36,9 +45,6 @@ public class BackgroundManager : MonoBehaviour
             // јктивируем выбранный фон
             activeBackground = backgrounds[index];
             activeBackground.SetActive(true);
-
-            // Ќастраиваем размер фона под камеру
-            ResizeBackgroundToFitCamera(activeBackground);
         }
         else
         {

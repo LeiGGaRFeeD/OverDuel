@@ -12,10 +12,12 @@ public class Cowboy : MonoBehaviour
     public GameObject cowboyWithGun;
     public GameObject cowboyWithoutGun;
     public Text hitCounterText;
-    public KeyCode actionKey;
+    public string actionKeyName; // Уникальное имя для настройки клавиши действия
+    public KeyCode defaultActionKey; // Клавиша действия по умолчанию
     public bool isLeftCowboy;
     public bool autoShoot; // Новая переменная для автострельбы
 
+    private KeyCode actionKey; // Настраиваемая клавиша действия
     private int hitCounter = 0;
     private bool hasGun = true;
     private float moveSpeed = 2f;
@@ -35,6 +37,9 @@ public class Cowboy : MonoBehaviour
 
         cowboyWithGun.SetActive(true);
         cowboyWithoutGun.SetActive(false);
+
+        // Загрузка сохранённой клавиши действия или использование клавиши по умолчанию
+        actionKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(actionKeyName, defaultActionKey.ToString()));
         UpdateHitCounterText();
     }
 
@@ -168,5 +173,13 @@ public class Cowboy : MonoBehaviour
     public bool CanShoot()
     {
         return canShoot;
+    }
+
+    // Метод для изменения клавиши действия (например, из меню настроек)
+    public void ChangeActionKey(KeyCode newKey)
+    {
+        actionKey = newKey;
+        PlayerPrefs.SetString(actionKeyName, newKey.ToString());
+        PlayerPrefs.Save();
     }
 }
