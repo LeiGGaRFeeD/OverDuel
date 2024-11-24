@@ -11,7 +11,14 @@ public class BackgroundManager : MonoBehaviour
 
     private void Start()
     {
-        int selectedBackgroundIndex = PlayerPrefs.GetInt("SelectedBackground", 0);
+        // Выбираем случайный индекс фона
+        int selectedBackgroundIndex = Random.Range(0, backgrounds.Length);
+
+        // Сохраняем выбранный фон, чтобы можно было использовать при следующем запуске
+        PlayerPrefs.SetInt("SelectedBackground", selectedBackgroundIndex);
+        PlayerPrefs.Save();
+
+        // Устанавливаем случайный фон
         SetBackground(selectedBackgroundIndex);
     }
 
@@ -20,14 +27,15 @@ public class BackgroundManager : MonoBehaviour
         // Убедитесь, что индекс находится в пределах массива
         if (index >= 0 && index < backgrounds.Length)
         {
-            // Удаляем предыдущий фон, если он существует
-            if (activeBackground != null)
+            // Деактивируем все фоны
+            foreach (var bg in backgrounds)
             {
-                Destroy(activeBackground);
+                bg.SetActive(false);
             }
 
-            // Создаем новый фон
-            activeBackground = Instantiate(backgrounds[index], Vector3.zero, Quaternion.identity);
+            // Активируем выбранный фон
+            activeBackground = backgrounds[index];
+            activeBackground.SetActive(true);
 
             // Настраиваем размер фона под камеру
             ResizeBackgroundToFitCamera(activeBackground);
@@ -53,5 +61,5 @@ public class BackgroundManager : MonoBehaviour
         {
             Debug.LogWarning("У фона отсутствует SpriteRenderer.");
         }
-    } 
+    }
 }

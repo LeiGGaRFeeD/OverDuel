@@ -921,6 +921,7 @@ MonoBehaviour:
   hitCounterText: {fileID: 901127089}
   actionKey: 97
   isLeftCowboy: 0
+  autoShoot: 0
   cowboySprite: {fileID: 904797131}
 --- !u!212 &904797131
 SpriteRenderer:
@@ -1635,7 +1636,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Action
+  m_Text: "\u041E\u0433\u043E\u043D\u044C!"
 --- !u!222 &1230561977
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1714,7 +1715,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Action
+  m_Text: "\u041E\u0433\u043E\u043D\u044C!"
 --- !u!222 &1361895930
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2209,6 +2210,7 @@ MonoBehaviour:
   hitCounterText: {fileID: 1479793465}
   actionKey: 32
   isLeftCowboy: 1
+  autoShoot: 0
   cowboySprite: {fileID: 1576099797}
 --- !u!212 &1576099797
 SpriteRenderer:
