@@ -14,6 +14,7 @@ public class Cowboy : MonoBehaviour
     public Text hitCounterText;
     public KeyCode actionKey;
     public bool isLeftCowboy;
+    public bool autoShoot; // Новая переменная для автострельбы
 
     private int hitCounter = 0;
     private bool hasGun = true;
@@ -25,6 +26,8 @@ public class Cowboy : MonoBehaviour
     private int score = 0;
 
     private GameController gameController;
+    private float autoShootCooldown = 2f; // Время между автоматическими выстрелами
+    private float autoShootTimer = 0f; // Таймер для автострельбы
 
     private void Start()
     {
@@ -39,7 +42,17 @@ public class Cowboy : MonoBehaviour
     {
         Move();
 
-        if (Input.GetKeyDown(actionKey))
+        if (autoShoot && hasGun && canShoot) // Логика автострельбы
+        {
+            autoShootTimer += Time.deltaTime;
+            if (autoShootTimer >= autoShootCooldown)
+            {
+                autoShootTimer = 0f;
+                Shoot();
+            }
+        }
+
+        if (!autoShoot && Input.GetKeyDown(actionKey)) // Логика ручного управления
         {
             if (hasGun)
             {
@@ -51,18 +64,17 @@ public class Cowboy : MonoBehaviour
             }
         }
     }
+
     public void AndroidMode()
     {
-
-            if (hasGun)
-            {
-                Shoot();
-            }
-            else
-            {
-                ChangeDirection();
-            }
-        
+        if (hasGun)
+        {
+            Shoot();
+        }
+        else
+        {
+            ChangeDirection();
+        }
     }
 
     private void Move()
@@ -87,6 +99,8 @@ public class Cowboy : MonoBehaviour
 
     private void Shoot()
     {
+        if (!canShoot) return; // Блокировка стрельбы во время кулдауна
+
         GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.Initialize(this);
@@ -124,14 +138,17 @@ public class Cowboy : MonoBehaviour
         UpdateHitCounterText();
         StartCoroutine(HandleBlinkingAndCooldown());
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         RegisterHit();
     }
+
     private void UpdateHitCounterText()
     {
         hitCounterText.text = hitCounter.ToString();
     }
+
     // Корутин для моргания и временной блокировки стрельбы
     private IEnumerator HandleBlinkingAndCooldown()
     {
