@@ -7,6 +7,9 @@ TagManager:
   - Box
   - Cactus
   - Cowboy
+  - 'Player '
+  - Computer
+  - Bullet
   layers:
   - Default
   - TransparentFX

@@ -108,7 +108,7 @@ public class Cowboy : MonoBehaviour
 
         GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
         Bullet bulletScript = bullet.GetComponent<Bullet>();
-        bulletScript.Initialize(this);
+     //   bulletScript.Initialize(this);
 
         cowboyWithGun.SetActive(false);
         cowboyWithoutGun.SetActive(true);

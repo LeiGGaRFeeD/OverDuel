@@ -9,7 +9,7 @@ public class Cactus : MonoBehaviour
         if (collision.CompareTag("Bullet"))
         {
             Bullet bullet = collision.GetComponent<Bullet>();
-            bullet.Ricochet();
+         //   bullet.Ricochet();
         }
     }
 }
