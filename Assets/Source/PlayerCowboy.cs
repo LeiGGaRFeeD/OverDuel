@@ -10,12 +10,19 @@ public class PlayerCowboy : MonoBehaviour
 
     private bool movingToB = true;
     public bool hasShot = false; // ќтслеживает, стрел€л ли игрок
+    public int ammoCount = 5; //  оличество патронов
 
     void Update()
     {
         Move();
 
-        if (Input.GetKeyDown(KeyCode.Space) && !hasShot)
+        // ≈сли нет патронов, мен€ем направление при нажатии на Space
+        if (ammoCount == 0 && Input.GetKeyDown(KeyCode.Space))
+        {
+            ChangeDirection();
+        }
+        // ≈сли есть патроны, стрел€ем при нажатии на Space
+        else if (Input.GetKeyDown(KeyCode.Space) && !hasShot && ammoCount > 0)
         {
             Shoot();
         }
@@ -36,6 +43,13 @@ public class PlayerCowboy : MonoBehaviour
     {
         Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
         hasShot = true;
+        ammoCount--; // ”меньшаем количество патронов при выстреле
         GameManager.Instance.CheckReloadState();
+    }
+
+    // ћетод дл€ смены направлени€ движени€
+    void ChangeDirection()
+    {
+        movingToB = !movingToB;
     }
 }

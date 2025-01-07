@@ -101,10 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db0dd9e4029731440a0fc0847bb0ca95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointC: {fileID: 0}
-  pointD: {fileID: 0}
-  speed: 2
-  bulletPrefab: {fileID: 135313227481066059, guid: 371e1620fead39c41b5b498555bb91a6, type: 3}
+  settings: {fileID: 0}
+  bulletPrefab: {fileID: 135313227481066059, guid: fb156a7f98c5ebb47a97306318e81adc, type: 3}
   shootPoint: {fileID: 3600924044435449625}
   hasShot: 0
 --- !u!50 &2829891469856131878

@@ -56,6 +56,12 @@ public class ComputerCowboy : MonoBehaviour
     public void OnHit()
     {
         Destroy(gameObject);
-        GameManager.Instance.SpawnNewComputer();
+   //     GameManager.Instance.SpawnNewComputer();
+        GameManager.Instance.NextLevel();
+
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        OnHit();
     }
 }
