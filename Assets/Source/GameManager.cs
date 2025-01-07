@@ -3,7 +3,9 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject computerPrefab; // Префаб ковбоя-компьютера
+    public GameObject regularComputerPrefab; // Префаб обычного ковбоя
+    public GameObject bossComputerPrefab; // Префаб босса
+
     public Transform spawnPoint; // Точка спавна для компьютера
     public Transform[] computerWaypoints; // Массив точек для движения компьютера
     public static GameManager Instance;
@@ -16,7 +18,6 @@ public class GameManager : MonoBehaviour
 
     public Scrollbar progressBar; // ScrollBar для прогресса
     private int currentLevel = 1; // Текущий уровень
-    private const int regularLevelsBeforeBoss = 4; // Количество обычных уровней до босса
     private const int levelsInCycle = 5; // Количество уровней в цикле (4 обычных и 1 босс)
 
     private void Awake()
@@ -58,12 +59,16 @@ public class GameManager : MonoBehaviour
             Destroy(computer.gameObject);
         }
 
-        GameObject newComputer = Instantiate(computerPrefab, spawnPoint.position, Quaternion.identity);
+        // Выбираем префаб в зависимости от текущего уровня
+        GameObject selectedPrefab = (currentLevel % levelsInCycle == 0) ? bossComputerPrefab : regularComputerPrefab;
+
+        // Спавним нового компьютера
+        GameObject newComputer = Instantiate(selectedPrefab, spawnPoint.position, Quaternion.identity);
         computer = newComputer.GetComponent<ComputerCowboy>();
 
         if (computer != null)
         {
-            computer.settings = currentLevelSettings; // Установить настройки уровня
+      //      computer.settings = currentLevelSettings; // Установить настройки уровня
         }
     }
 
