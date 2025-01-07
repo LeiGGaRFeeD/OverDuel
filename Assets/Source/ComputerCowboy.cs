@@ -9,6 +9,7 @@ public class ComputerCowboy : MonoBehaviour
     private Transform[] waypoints; // Массив точек, между которыми движется ковбой
     private int currentWaypointIndex = 0; // Индекс текущей точки
     public bool hasShot = false; // Отслеживает, стрелял ли компьютер
+    public bool isBoss = false; // Флаг, указывающий, является ли ковбой боссом
 
     void Start()
     {
@@ -75,9 +76,26 @@ public class ComputerCowboy : MonoBehaviour
             return;
         }
 
-        Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity); // Создаём пулю
+        // Выстрел для обычного ковбоя
+        if (!isBoss)
+        {
+            Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity); // Создаём пулю
+        }
+        else
+        {
+            // Двойной выстрел для босса
+            Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity); // Первый выстрел
+            Invoke(nameof(BossSecondShot), 0.2f); // Второй выстрел через 0.2 секунды
+        }
+
         hasShot = true; // Устанавливаем флаг "стрельбы"
         GameManager.Instance.CheckReloadState(); // Проверяем состояние перезарядки
+    }
+
+    // Второй выстрел для босса
+    void BossSecondShot()
+    {
+        Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity); // Второй выстрел
     }
 
     // Метод вызывается при попадании

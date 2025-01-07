@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Cactus : MonoBehaviour
@@ -9,7 +7,12 @@ public class Cactus : MonoBehaviour
         if (collision.CompareTag("Bullet"))
         {
             Bullet bullet = collision.GetComponent<Bullet>();
-         //   bullet.Ricochet();
+            if (bullet != null)
+            {
+                // Передаём нормаль поверхности кактуса для расчёта рикошета
+                Vector2 collisionNormal = (collision.transform.position - transform.position).normalized;
+                bullet.Ricochet(collisionNormal);
+            }
         }
     }
 }

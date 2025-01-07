@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelPlayerPrefs : MonoBehaviour
@@ -19,6 +20,8 @@ public class LevelPlayerPrefs : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Z))
         {
             PlayerPrefs.SetInt("CurrentLevel", 1);
+            PlayerPrefs.DeleteKey("CurrentLevel");
+            SceneManager.LoadScene("Game1P");
         }
     }
 }

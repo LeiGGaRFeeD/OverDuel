@@ -6,29 +6,62 @@ public class BackgroundManager : MonoBehaviour
 {
     public GameObject[] backgrounds;          // Массив фонов
     public Camera mainCamera;                 // Камера, к которой подстраивается фон
+    public int levelInterval = 5;             // Интервал уровней для смены фона
 
     private GameObject activeBackground;      // Текущий активный фон
+    private int lastLevelChecked = -1;        // Последний проверенный уровень
+    private int lastSelectedBackground = -1;  // Индекс последнего выбранного фона
 
     private void Start()
     {
-        // Выбираем случайный индекс фона
-        int selectedBackgroundIndex = Random.Range(0, backgrounds.Length);
+        // Инициализация последнего активного уровня
+        lastLevelChecked = PlayerPrefs.GetInt("CurrentLevel", 1);
 
-        // Сохраняем выбранный фон, чтобы можно было использовать при следующем запуске
-        PlayerPrefs.SetInt("SelectedBackground", selectedBackgroundIndex);
-        PlayerPrefs.Save();
-
-        // Устанавливаем случайный фон
-        SetBackground(selectedBackgroundIndex);
+        // Устанавливаем фон на старте
+        int savedBackgroundIndex = PlayerPrefs.GetInt("SelectedBackground", 0);
+        SetBackground(savedBackgroundIndex);
     }
 
     private void Update()
     {
-        // Обновляем размер фона каждый кадр
+        // Проверяем текущий уровень
+        int currentLevel = PlayerPrefs.GetInt("CurrentLevel", 1);
+
+        // Если уровень изменился и кратен levelInterval, сменить фон
+        if (currentLevel != lastLevelChecked && currentLevel % levelInterval == 0)
+        {
+            int newBackgroundIndex = GetRandomBackgroundIndex();
+
+            // Сохраняем новый выбранный фон
+            PlayerPrefs.SetInt("SelectedBackground", newBackgroundIndex);
+            PlayerPrefs.Save();
+
+            // Меняем фон
+            SetBackground(newBackgroundIndex);
+        }
+
+        // Обновляем последний проверенный уровень
+        lastLevelChecked = currentLevel;
+
+        // Обновляем размер активного фона
         if (activeBackground != null)
         {
             ResizeBackgroundToFitCamera(activeBackground);
         }
+    }
+
+    private int GetRandomBackgroundIndex()
+    {
+        int randomIndex;
+
+        do
+        {
+            randomIndex = Random.Range(0, backgrounds.Length);
+        }
+        while (randomIndex == lastSelectedBackground);
+
+        lastSelectedBackground = randomIndex;
+        return randomIndex;
     }
 
     private void SetBackground(int index)

@@ -105,6 +105,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 135313227481066059, guid: fb156a7f98c5ebb47a97306318e81adc, type: 3}
   shootPoint: {fileID: 3600924044435449625}
   hasShot: 0
+  isBoss: 1
 --- !u!50 &2829891469856131878
 Rigidbody2D:
   serializedVersion: 4
