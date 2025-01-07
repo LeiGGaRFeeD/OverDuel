@@ -3178,6 +3178,10 @@ PrefabInstance:
       propertyPath: pointB
       value: 
       objectReference: {fileID: 1565061620}
+    - target: {fileID: 93935308560554046, guid: cc885c6cabe0aa24eb564b38836a3f36, type: 3}
+      propertyPath: ammoCount
+      value: 999
+      objectReference: {fileID: 0}
     - target: {fileID: 4739496816704670164, guid: cc885c6cabe0aa24eb564b38836a3f36, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.07
