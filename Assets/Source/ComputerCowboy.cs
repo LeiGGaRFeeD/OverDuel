@@ -20,7 +20,16 @@ public class ComputerCowboy : MonoBehaviour
         if (waypoints == null || waypoints.Length < 2)
         {
             Debug.LogError("Waypoints для компьютера не настроены!");
+            return;
         }
+
+        hasShot = true; // Устанавливаем начальное состояние
+        Invoke(nameof(ResetShootState), 0.1f); // Сбрасываем состояние через небольшой промежуток времени
+    }
+
+    void ResetShootState()
+    {
+        hasShot = false; // Разрешаем выстрел после настройки
     }
 
     void Update()
@@ -48,18 +57,19 @@ public class ComputerCowboy : MonoBehaviour
 
     void Shoot()
     {
+        if (waypoints == null || waypoints.Length < 2) return; // Проверяем настройки
+
         Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
-        hasShot = true;
+        hasShot = true; // Устанавливаем флаг после выстрела
         GameManager.Instance.CheckReloadState();
     }
 
     public void OnHit()
     {
         Destroy(gameObject);
-   //     GameManager.Instance.SpawnNewComputer();
         GameManager.Instance.NextLevel();
-
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         OnHit();
