@@ -12,12 +12,12 @@ public class ShieldController : MonoBehaviour
 
     public Button shieldUIButton; // Кнопка в UI для активации щита
 
-    private float currentEnergy; // Текущий уровень энергии
+    public float currentEnergy; // Текущий уровень энергии
     private bool isShieldActive = false; // Флаг активности щита
     private bool isRecharging = false; // Флаг, идёт ли восстановление энергии
     private float rechargeTimer = 0f; // Таймер для отслеживания задержки восстановления
 
-    private bool isUIButtonPressed = false; // Флаг для отслеживания удержания кнопки UI
+    private bool isUIButtonToggled = false; // Флаг переключения состояния через кнопку UI
     private PlayerCowboy playerShooting; // Ссылка на компонент стрельбы игрока
 
     void Start()
@@ -28,25 +28,31 @@ public class ShieldController : MonoBehaviour
 
         playerShooting = GetComponent<PlayerCowboy>(); // Получаем компонент стрельбы игрока, если он есть
 
-        // Подписываемся на события UI-кнопки
+        // Настраиваем событие для UI-кнопки
         if (shieldUIButton != null)
         {
-            shieldUIButton.onClick.AddListener(() => { isUIButtonPressed = true; });
+            shieldUIButton.onClick.AddListener(ToggleShieldUI);
         }
     }
 
     void Update()
     {
-        // Проверка удержания клавиши E или кнопки UI
-        if ((Input.GetKey(KeyCode.E) || isUIButtonPressed) && currentEnergy > 0)
+        // Логика для клавиши E
+        if (Input.GetKey(KeyCode.E) && currentEnergy > 0)
+        {
+            ActivateShield();
+        }
+        else if (isUIButtonToggled && currentEnergy > 0) // Логика для включенного щита через UI
         {
             ActivateShield();
         }
         else
         {
             DeactivateShield();
+            RechargeEnergy();
         }
 
+        // Восстановление энергии при выключенном щите
         if (!isShieldActive && currentEnergy < maxEnergy)
         {
             if (isRecharging)
@@ -65,6 +71,21 @@ public class ShieldController : MonoBehaviour
         }
 
         UpdateShieldBar(); // Обновляем UI-бар энергии
+    }
+
+    public void ToggleShieldUI()
+    {
+        // Переключение состояния щита через кнопку UI
+        isUIButtonToggled = !isUIButtonToggled;
+        if (isUIButtonToggled && currentEnergy > 0)
+        {
+            ActivateShield();
+        }
+        else
+        {
+            DeactivateShield();
+            RechargeEnergy() ;
+        }
     }
 
     private void ActivateShield()
@@ -105,7 +126,8 @@ public class ShieldController : MonoBehaviour
             }
         }
 
-        isUIButtonPressed = false; // Сбрасываем флаг UI-кнопки
+        isRecharging = true; // Включаем восстановление энергии
+        rechargeTimer = 0f; // Сбрасываем таймер восстановления
     }
 
     private void RechargeEnergy()
