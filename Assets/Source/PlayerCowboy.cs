@@ -12,6 +12,19 @@ public class PlayerCowboy : MonoBehaviour
     public bool hasShot = false; // Отслеживает, стрелял ли игрок
     public int ammoCount = 5; // Количество патронов
 
+    public AudioClip shootSound; // Звук выстрела
+    private AudioSource audioSource; // Компонент AudioSource
+
+    void Start()
+    {
+        // Получаем или добавляем компонент AudioSource
+        audioSource = gameObject.GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+    }
+
     void Update()
     {
         // Если hasShot true, игрок меняет направление при нажатии на Space
@@ -21,6 +34,22 @@ public class PlayerCowboy : MonoBehaviour
         }
         // Если hasShot false, игрок стреляет при нажатии на Space
         else if (!hasShot && Input.GetKeyDown(KeyCode.Space))
+        {
+            Shoot();
+        }
+
+        // Движение игрока
+        Move();
+    }
+    public void ForButtonShoot()
+    {
+        // Если hasShot true, игрок меняет направление при нажатии на Space
+        if (hasShot )
+        {
+            ChangeDirection();
+        }
+        // Если hasShot false, игрок стреляет при нажатии на Space
+        else if (!hasShot )
         {
             Shoot();
         }
@@ -47,7 +76,20 @@ public class PlayerCowboy : MonoBehaviour
             Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
             hasShot = true; // Устанавливаем, что игрок сделал выстрел
             ammoCount--; // Уменьшаем количество патронов
+            PlayShootSound(); // Воспроизводим звук выстрела
             GameManager.Instance.CheckReloadState();
+        }
+    }
+
+    void PlayShootSound()
+    {
+        if (shootSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(shootSound); // Воспроизводим звук
+        }
+        else
+        {
+            Debug.LogWarning("Отсутствует звук или компонент AudioSource!");
         }
     }
 

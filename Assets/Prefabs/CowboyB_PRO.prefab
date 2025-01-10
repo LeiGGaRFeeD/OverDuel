@@ -104,6 +104,7 @@ MonoBehaviour:
   settings: {fileID: 11400000, guid: 0cfb607e70a19e846a6256f2dce0466d, type: 2}
   bulletPrefab: {fileID: 135313227481066059, guid: fb156a7f98c5ebb47a97306318e81adc, type: 3}
   shootPoint: {fileID: 3600924044435449625}
+  shootSound: {fileID: 8300000, guid: e95627f283a9a3e418da3d8a118376a7, type: 3}
   hasShot: 0
   isBoss: 1
   speedIncreasePercentage: 10

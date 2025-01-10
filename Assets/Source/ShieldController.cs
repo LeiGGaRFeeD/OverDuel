@@ -20,6 +20,9 @@ public class ShieldController : MonoBehaviour
     private bool isUIButtonToggled = false; // Флаг переключения состояния через кнопку UI
     private PlayerCowboy playerShooting; // Ссылка на компонент стрельбы игрока
 
+    public AudioClip shieldActivationSound; // Звук активации щита
+    private AudioSource audioSource; // Компонент для воспроизведения звука
+
     void Start()
     {
         currentEnergy = maxEnergy; // Устанавливаем начальную энергию на максимум
@@ -33,6 +36,11 @@ public class ShieldController : MonoBehaviour
         {
             shieldUIButton.onClick.AddListener(ToggleShieldUI);
         }
+
+        // Инициализация AudioSource
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = shieldActivationSound;
+        audioSource.playOnAwake = false;
     }
 
     void Update()
@@ -84,7 +92,7 @@ public class ShieldController : MonoBehaviour
         else
         {
             DeactivateShield();
-            RechargeEnergy() ;
+            RechargeEnergy();
         }
     }
 
@@ -99,6 +107,8 @@ public class ShieldController : MonoBehaviour
             {
                 playerShooting.enabled = false; // Отключаем стрельбу
             }
+
+            PlayShieldSound(); // Проигрываем звук активации щита
         }
 
         currentEnergy -= energyDepletionRate * Time.deltaTime; // Тратим энергию
@@ -139,5 +149,13 @@ public class ShieldController : MonoBehaviour
     private void UpdateShieldBar()
     {
         shieldBar.size = currentEnergy / maxEnergy; // Обновляем индикатор энергии
+    }
+
+    private void PlayShieldSound()
+    {
+        if (audioSource != null && shieldActivationSound != null)
+        {
+            audioSource.Play(); // Проигрываем звук
+        }
     }
 }

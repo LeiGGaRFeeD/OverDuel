@@ -5,6 +5,8 @@ public class ComputerCowboy : MonoBehaviour
     public CowboySettings settings; // Настройки ковбоя из ScriptableObject
     public GameObject bulletPrefab; // Префаб пули
     public Transform shootPoint; // Точка стрельбы
+    public AudioClip shootSound; // Звук выстрела
+    private AudioSource audioSource; // Компонент AudioSource
 
     private Transform[] waypoints; // Массив точек, между которыми движется ковбой
     private int currentWaypointIndex = 0; // Индекс текущей точки
@@ -30,6 +32,13 @@ public class ComputerCowboy : MonoBehaviour
         Invoke(nameof(ResetShootState), 0.1f); // Сбрасываем состояние через небольшой промежуток времени
 
         UpdateSpeedBasedOnLevel(); // Обновляем скорость на основе текущего уровня
+
+        // Получаем или добавляем AudioSource
+        audioSource = gameObject.GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     // Сброс состояния "стрельбы"
@@ -80,6 +89,8 @@ public class ComputerCowboy : MonoBehaviour
             return;
         }
 
+        PlayShootSound(); // Воспроизводим звук выстрела
+
         // Выстрел для обычного ковбоя
         if (!isBoss)
         {
@@ -100,6 +111,19 @@ public class ComputerCowboy : MonoBehaviour
     void BossSecondShot()
     {
         Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity); // Второй выстрел
+    }
+
+    // Метод воспроизведения звука выстрела
+    void PlayShootSound()
+    {
+        if (shootSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(shootSound); // Воспроизводим звук
+        }
+        else
+        {
+            Debug.LogWarning("Отсутствует звук выстрела или AudioSource!");
+        }
     }
 
     // Метод вызывается при попадании
