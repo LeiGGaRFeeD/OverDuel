@@ -106,6 +106,7 @@ MonoBehaviour:
   shootPoint: {fileID: 3600924044435449625}
   hasShot: 0
   isBoss: 1
+  speedIncreasePercentage: 10
 --- !u!50 &2829891469856131878
 Rigidbody2D:
   serializedVersion: 4

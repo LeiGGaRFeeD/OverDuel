@@ -10,7 +10,7 @@ public class PlayerLose : MonoBehaviour
     public Image[] hearts; // Массив Image для отображения здоровья
     public float beatScale = 1.2f; // Максимальное увеличение Scale во время анимации
     public float beatDuration = 0.5f; // Длительность одного цикла анимации
-    public string resultSceneName = "ResultScene"; // Имя сцены при проигрыше
+    public string resultSceneName = "Result1P"; // Имя сцены при проигрыше
 
     private int currentHealth; // Текущее здоровье
     private Coroutine beatCoroutine; // Ссылка на корутину анимации

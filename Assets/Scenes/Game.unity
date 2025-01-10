@@ -925,7 +925,7 @@ MonoBehaviour:
   pointA: {fileID: 464716302}
   pointB: {fileID: 1919503672}
   shootPoint: {fileID: 583578314}
-  bulletPrefab: {fileID: 135313227481066059, guid: 371e1620fead39c41b5b498555bb91a6, type: 3}
+  bulletPrefab: {fileID: 135313227481066059, guid: fb156a7f98c5ebb47a97306318e81adc, type: 3}
   cowboyWithGun: {fileID: 777603602}
   cowboyWithoutGun: {fileID: 1748120189}
   hitCounterText: {fileID: 901127089}

@@ -11,6 +11,8 @@ public class ComputerCowboy : MonoBehaviour
     public bool hasShot = false; // Отслеживает, стрелял ли компьютер
     public bool isBoss = false; // Флаг, указывающий, является ли ковбой боссом
 
+    public float speedIncreasePercentage = 10f; // Процент увеличения скорости каждые 5 уровней
+
     void Start()
     {
         if (GameManager.Instance != null)
@@ -26,6 +28,8 @@ public class ComputerCowboy : MonoBehaviour
 
         hasShot = true; // Устанавливаем начальное состояние, чтобы избежать двойного выстрела
         Invoke(nameof(ResetShootState), 0.1f); // Сбрасываем состояние через небольшой промежуток времени
+
+        UpdateSpeedBasedOnLevel(); // Обновляем скорость на основе текущего уровня
     }
 
     // Сброс состояния "стрельбы"
@@ -114,5 +118,20 @@ public class ComputerCowboy : MonoBehaviour
     public void UpdateSettings(CowboySettings newSettings)
     {
         settings = newSettings;
+        UpdateSpeedBasedOnLevel(); // Обновляем скорость при изменении настроек
+    }
+
+    // Обновляем скорость ковбоя на основе текущего уровня
+    private void UpdateSpeedBasedOnLevel()
+    {
+        int currentLevel = PlayerPrefs.GetInt("CurrentLevel", 1); // Получаем текущий уровень из PlayerPrefs
+
+        // Каждые 5 уровней увеличиваем скорость
+        if (currentLevel % 5 == 0)
+        {
+            float multiplier = 1 + (speedIncreasePercentage / 100f);
+            settings.speed *= multiplier;
+            Debug.Log($"Speed increased! New Speed: {settings.speed}");
+        }
     }
 }

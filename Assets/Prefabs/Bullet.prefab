@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2606642cd52b37e4abe8ac8a8c689b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 13
   maxRicochets: 3
   ricochetAngle: 270
   ricochetSpeed: 3
